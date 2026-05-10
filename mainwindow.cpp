@@ -281,6 +281,14 @@ void MainWindow::drawTreeNode(TreeNode* node, QGraphicsScene* scene, double x, d
         double leftSpan = leftLeaves * leafSpacing;
         double leftX = x - (subtreeWidth / 2.0) + (leftSpan / 2.0);
         scene->addLine(x, y + 15, leftX, y + levelHeight - 15, QPen(Qt::black, 2));
+        QGraphicsTextItem* leftLabel = scene->addText("0");
+        leftLabel->setDefaultTextColor(Qt::black);
+        leftLabel->setFont(QFont("Arial", 10));
+        QRectF leftBounds = leftLabel->boundingRect();
+        double leftLabelX = (x + leftX) / 2.0;
+        double leftLabelY = y + (levelHeight / 2.0);
+        leftLabel->setX(leftLabelX - (leftBounds.width() / 2.0));
+        leftLabel->setY(leftLabelY - (leftBounds.height() / 2.0));
         drawTreeNode(node->left, scene, leftX, y + levelHeight, widthMap, leafSpacing, levelHeight);
     }
     
@@ -289,6 +297,14 @@ void MainWindow::drawTreeNode(TreeNode* node, QGraphicsScene* scene, double x, d
         double rightSpan = rightLeaves * leafSpacing;
         double rightX = x + (subtreeWidth / 2.0) - (rightSpan / 2.0);
         scene->addLine(x, y + 15, rightX, y + levelHeight - 15, QPen(Qt::black, 2));
+        QGraphicsTextItem* rightLabel = scene->addText("1");
+        rightLabel->setDefaultTextColor(Qt::black);
+        rightLabel->setFont(QFont("Arial", 10));
+        QRectF rightBounds = rightLabel->boundingRect();
+        double rightLabelX = (x + rightX) / 2.0;
+        double rightLabelY = y + (levelHeight / 2.0);
+        rightLabel->setX(rightLabelX - (rightBounds.width() / 2.0));
+        rightLabel->setY(rightLabelY - (rightBounds.height() / 2.0));
         drawTreeNode(node->right, scene, rightX, y + levelHeight, widthMap, leafSpacing, levelHeight);
     }
 }
