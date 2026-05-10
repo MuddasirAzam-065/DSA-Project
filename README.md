@@ -61,6 +61,9 @@ The system follows a layered architecture:
 5. Encode image data
 6. Save compressed output
 
+<img width="478" height="1111" alt="flow" src="https://github.com/user-attachments/assets/06c77bbe-8095-4660-800a-0cf6c76ac911" />
+
+
 ---
 
 ## 🖥️ GUI Layout
