@@ -73,4 +73,10 @@ The system follows a layered architecture:
 - Middle Panel: Huffman Table + Visualization
 - Bottom Panel: Image Processing Tools
 
-📷 **Screenshot - Main Interface**
+## 📷 Screenshots 
+### Main Interface
+<img width="799" height="725" alt="1" src="https://github.com/user-attachments/assets/8544b09e-b0fa-488a-8755-1d2216759408" />
+
+### Test Image
+
+
