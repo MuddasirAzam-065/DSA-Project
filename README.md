@@ -78,5 +78,14 @@ The system follows a layered architecture:
 <img width="799" height="725" alt="1" src="https://github.com/user-attachments/assets/8544b09e-b0fa-488a-8755-1d2216759408" />
 
 ### Test Image
+<img width="1000" height="1000" alt="test" src="https://github.com/user-attachments/assets/95597aa2-d5b1-4a89-a70b-22023c51df96" />
+
+### Frequency Table
+<img width="300" height="257" alt="3" src="https://github.com/user-attachments/assets/6bcb9752-21ea-4afb-a380-18efeab97629" />
+
+### Graph
+<img width="1476" height="1518" alt="2" src="https://github.com/user-attachments/assets/60ac85e9-21e0-44ce-ba82-b7b3b3b6db09" />
+
+
 
 
