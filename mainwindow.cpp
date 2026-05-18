@@ -138,7 +138,7 @@ void MainWindow::onCompressClicked()
         QFileInfo compressedInfo(QString::fromUtf8(compressedFile));
         
         QString message = QString("Image compressed successfully!\n\nSaved as: %1").arg(compressedFile);
-        message += QString("\n\nActual Size: %1\nCompressed Size: %2")
+        message += QString("\n\nOriginal Size: %1\nCompressed Size: %2")
             .arg(formatSize(originalInfo.exists() ? originalInfo.size() : -1),
                  formatSize(compressedInfo.exists() ? compressedInfo.size() : -1));
         
