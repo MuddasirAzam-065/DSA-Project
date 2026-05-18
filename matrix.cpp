@@ -13,15 +13,15 @@ Matrix::Matrix(int r, int c) : rows(r), cols(c)
     fill(0);
 }
 
-Matrix::Matrix(const Matrix& other) : data(nullptr), rows(other.rows), cols(other.cols)
+Matrix::Matrix(const Matrix& other) : data(nullptr), rows(0), cols(0)
 {
     if (other.rows <= 0 || other.cols <= 0 || other.data == nullptr)
     {
-        rows = 0;
-        cols = 0;
         return;
     }
     
+    rows = other.rows;
+    cols = other.cols;
     allocate();
     
     for (int i = 0; i < rows; i++)
