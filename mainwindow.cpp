@@ -149,8 +149,9 @@ void MainWindow::onCompressClicked()
         
         bool originalExists = originalFileInfo.exists();
         bool compressedExists = compressedFileInfo.exists();
-        bool showOriginalBytes = originalExists && originalFileInfo.size() < 1024 * 1024;
-        bool showCompressedBytes = compressedExists && compressedFileInfo.size() < 1024 * 1024;
+        constexpr qint64 sizeThresholdForExactBytes = 1024 * 1024;
+        bool showOriginalBytes = originalExists && originalFileInfo.size() < sizeThresholdForExactBytes;
+        bool showCompressedBytes = compressedExists && compressedFileInfo.size() < sizeThresholdForExactBytes;
         
         QString originalSizeText = originalExists
             ? formatSize(originalFileInfo.size(), showOriginalBytes)
