@@ -22,8 +22,6 @@ Matrix::Matrix(const Matrix& other) : data(nullptr), rows(other.rows), cols(othe
         return;
     }
     
-    rows = other.rows;
-    cols = other.cols;
     allocate();
     
     for (int i = 0; i < rows; i++)
