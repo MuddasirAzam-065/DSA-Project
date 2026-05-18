@@ -13,10 +13,12 @@ Matrix::Matrix(int r, int c) : rows(r), cols(c)
     fill(0);
 }
 
-Matrix::Matrix(const Matrix& other) : data(nullptr), rows(0), cols(0)
+Matrix::Matrix(const Matrix& other) : data(nullptr), rows(other.rows), cols(other.cols)
 {
     if (other.rows <= 0 || other.cols <= 0 || other.data == nullptr)
     {
+        rows = 0;
+        cols = 0;
         return;
     }
     
@@ -43,6 +45,7 @@ Matrix& Matrix::operator=(const Matrix& other)
         deallocate();
         rows = 0;
         cols = 0;
+        data = nullptr;
         return *this;
     }
     
