@@ -134,13 +134,14 @@ void MainWindow::onCompressClicked()
                 .arg(bytes);
         };
         
-        QFileInfo originalInfo(QString::fromUtf8(originalFile));
-        QFileInfo compressedInfo(QString::fromUtf8(compressedFile));
+        QFileInfo originalFileInfo(QString::fromUtf8(originalFile));
+        QFileInfo compressedFileInfo(QString::fromUtf8(compressedFile));
         
-        QString message = QString("Image compressed successfully!\n\nSaved as: %1").arg(compressedFile);
+        QString message = QString("Image compressed successfully!\n\nSaved as: %1")
+            .arg(compressedFileInfo.filePath());
         message += QString("\n\nOriginal Size: %1\nCompressed Size: %2")
-            .arg(formatSize(originalInfo.exists() ? originalInfo.size() : -1),
-                 formatSize(compressedInfo.exists() ? compressedInfo.size() : -1));
+            .arg(formatSize(originalFileInfo.exists() ? originalFileInfo.size() : -1),
+                 formatSize(compressedFileInfo.exists() ? compressedFileInfo.size() : -1));
         
         QMessageBox::information(this, "Success", message);
     }
