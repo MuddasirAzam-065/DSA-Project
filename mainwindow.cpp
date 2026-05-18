@@ -10,6 +10,7 @@
 #include <QGraphicsProxyWidget>
 #include <QPixmap>
 #include <QImage>
+#include <QFileInfo>
 #include <cstring>
 #include <cstdio>
 #include <fstream>
@@ -111,8 +112,37 @@ void MainWindow::onCompressClicked()
     
     if (success)
     {
-        QMessageBox::information(this, "Success",
-            QString("Image compressed successfully!\n\nSaved as: %1").arg(compressedFile));
+        auto formatSize = [](qint64 bytes) -> QString
+        {
+            if (bytes < 0)
+                return "Unknown";
+            
+            double size = static_cast<double>(bytes);
+            const char* units[] = {"B", "KB", "MB", "GB", "TB"};
+            int unitIndex = 0;
+            
+            while (size >= 1024.0 && unitIndex < 4)
+            {
+                size /= 1024.0;
+                unitIndex++;
+            }
+            
+            int precision = (unitIndex == 0) ? 0 : 2;
+            return QString("%1 %2 (%3 bytes)")
+                .arg(size, 0, 'f', precision)
+                .arg(units[unitIndex])
+                .arg(bytes);
+        };
+        
+        QFileInfo originalInfo(QString::fromUtf8(originalFile));
+        QFileInfo compressedInfo(QString::fromUtf8(compressedFile));
+        
+        QString message = QString("Image compressed successfully!\n\nSaved as: %1").arg(compressedFile);
+        message += QString("\n\nActual Size: %1\nCompressed Size: %2")
+            .arg(formatSize(originalInfo.exists() ? originalInfo.size() : -1),
+                 formatSize(compressedInfo.exists() ? compressedInfo.size() : -1));
+        
+        QMessageBox::information(this, "Success", message);
     }
     else
     {
