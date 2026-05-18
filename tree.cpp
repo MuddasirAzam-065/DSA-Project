@@ -5,6 +5,21 @@ Tree::Tree() : root(nullptr)
 {
 }
 
+Tree::Tree(const Tree& other) : root(nullptr)
+{
+    root = cloneTree(other.root);
+}
+
+Tree& Tree::operator=(const Tree& other)
+{
+    if (this == &other)
+        return *this;
+    
+    clear();
+    root = cloneTree(other.root);
+    return *this;
+}
+
 Tree::~Tree()
 {
     clear();
@@ -18,6 +33,17 @@ void Tree::deleteTree(TreeNode* node)
     deleteTree(node->left);
     deleteTree(node->right);
     delete node;
+}
+
+TreeNode* Tree::cloneTree(const TreeNode* node)
+{
+    if (node == nullptr)
+        return nullptr;
+    
+    TreeNode* copy = new TreeNode(node->data, node->frequency);
+    copy->left = cloneTree(node->left);
+    copy->right = cloneTree(node->right);
+    return copy;
 }
 
 void Tree::setRoot(TreeNode* node)

@@ -24,10 +24,13 @@ private:
     
     // Helper functions for tree operations
     void deleteTree(TreeNode* node);
+    TreeNode* cloneTree(const TreeNode* node);
     void inorderTraversal(TreeNode* node, char* codes, int depth, char** result, int& count);
     
 public:
     Tree();
+    Tree(const Tree& other);
+    Tree& operator=(const Tree& other);
     ~Tree();
     
     // Basic tree operations

@@ -16,6 +16,8 @@ private:
 public:
     Matrix();
     Matrix(int r, int c);
+    Matrix(const Matrix& other);
+    Matrix& operator=(const Matrix& other);
     ~Matrix();
     
     // Dimension management

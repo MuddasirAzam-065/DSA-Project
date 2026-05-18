@@ -13,6 +13,51 @@ Matrix::Matrix(int r, int c) : rows(r), cols(c)
     fill(0);
 }
 
+Matrix::Matrix(const Matrix& other) : data(nullptr), rows(other.rows), cols(other.cols)
+{
+    allocate();
+    if (data == nullptr)
+        return;
+    
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            data[i][j] = other.data[i][j];
+        }
+    }
+}
+
+Matrix& Matrix::operator=(const Matrix& other)
+{
+    if (this == &other)
+        return *this;
+    
+    if (other.rows <= 0 || other.cols <= 0 || other.data == nullptr)
+    {
+        deallocate();
+        return *this;
+    }
+    
+    if (rows != other.rows || cols != other.cols || data == nullptr)
+    {
+        deallocate();
+        rows = other.rows;
+        cols = other.cols;
+        allocate();
+    }
+    
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            data[i][j] = other.data[i][j];
+        }
+    }
+    
+    return *this;
+}
+
 Matrix::~Matrix()
 {
     deallocate();
