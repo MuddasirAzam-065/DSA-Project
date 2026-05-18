@@ -118,10 +118,11 @@ void MainWindow::onCompressClicked()
                 return "Unknown";
             
             double size = static_cast<double>(bytes);
-            const char* units[] = {"B", "KB", "MB", "GB", "TB"};
+            static constexpr const char* units[] = {"B", "KB", "MB", "GB", "TB"};
+            constexpr int maxUnitIndex = static_cast<int>(sizeof(units) / sizeof(units[0])) - 1;
             int unitIndex = 0;
             
-            while (size >= 1024.0 && unitIndex < 4)
+            while (size >= 1024.0 && unitIndex < maxUnitIndex)
             {
                 size /= 1024.0;
                 unitIndex++;
