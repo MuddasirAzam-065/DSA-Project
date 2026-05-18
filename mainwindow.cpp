@@ -10,6 +10,7 @@
 #include <QGraphicsProxyWidget>
 #include <QPixmap>
 #include <QImage>
+#include <QFileInfo>
 #include <cstring>
 #include <cstdio>
 #include <fstream>
@@ -111,8 +112,63 @@ void MainWindow::onCompressClicked()
     
     if (success)
     {
-        QMessageBox::information(this, "Success",
-            QString("Image compressed successfully!\n\nSaved as: %1").arg(compressedFile));
+        auto formatSize = [](qint64 bytes, bool includeExactBytes) -> QString
+        {
+            if (bytes < 0)
+                return "Unknown";
+            
+            double size = static_cast<double>(bytes);
+            static constexpr const char* units[] = {"B", "KB", "MB", "GB", "TB"};
+            constexpr int maxUnitIndex = static_cast<int>(sizeof(units) / sizeof(units[0])) - 1;
+            int unitIndex = 0;
+            
+            while (size >= 1024.0 && unitIndex < maxUnitIndex)
+            {
+                size /= 1024.0;
+                unitIndex++;
+            }
+            
+            int precision = (unitIndex == 0) ? 0 : 2;
+            QString readable = QString("%1 %2")
+                .arg(size, 0, 'f', precision)
+                .arg(units[unitIndex]);
+            
+            if (!includeExactBytes)
+                return readable;
+            
+            return QString("%1 (%2 bytes)")
+                .arg(readable)
+                .arg(bytes);
+        };
+        
+        QFileInfo originalFileInfo(QString::fromUtf8(originalFile));
+        QFileInfo compressedFileInfo(QString::fromUtf8(compressedFile));
+        
+        QString message = QString("Image compressed successfully!\n\nSaved as: %1")
+            .arg(compressedFileInfo.filePath());
+        
+        bool originalExists = originalFileInfo.exists();
+        bool compressedExists = compressedFileInfo.exists();
+        constexpr qint64 sizeThresholdForExactBytes = 1024 * 1024;
+        bool showOriginalBytes = originalExists && originalFileInfo.size() < sizeThresholdForExactBytes;
+        bool showCompressedBytes = compressedExists && compressedFileInfo.size() < sizeThresholdForExactBytes;
+        
+        QString originalSizeText = originalExists
+            ? formatSize(originalFileInfo.size(), showOriginalBytes)
+            : "Unavailable";
+        QString compressedSizeText = compressedExists
+            ? formatSize(compressedFileInfo.size(), showCompressedBytes)
+            : "Unavailable";
+        
+        message += QString("\n\nOriginal Size: %1\nCompressed Size: %2")
+            .arg(originalSizeText, compressedSizeText);
+        
+        if (!compressedExists)
+        {
+            message += "\n\nNote: Compressed file size is unavailable because the file was not found.";
+        }
+        
+        QMessageBox::information(this, "Success", message);
     }
     else
     {
