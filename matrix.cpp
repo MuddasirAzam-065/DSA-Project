@@ -46,7 +46,7 @@ Matrix& Matrix::operator=(const Matrix& other)
         return *this;
     }
     
-    if (rows != other.rows || cols != other.cols || data == nullptr)
+    if (data == nullptr || rows != other.rows || cols != other.cols)
     {
         deallocate();
         rows = other.rows;
