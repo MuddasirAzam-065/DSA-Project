@@ -112,7 +112,7 @@ void MainWindow::onCompressClicked()
     
     if (success)
     {
-        auto formatSize = [](qint64 bytes) -> QString
+        auto formatSize = [](qint64 bytes, bool includeExactBytes) -> QString
         {
             if (bytes < 0)
                 return "Unknown";
@@ -128,9 +128,15 @@ void MainWindow::onCompressClicked()
             }
             
             int precision = (unitIndex == 0) ? 0 : 2;
-            return QString("%1 %2 (%3 bytes)")
+            QString readable = QString("%1 %2")
                 .arg(size, 0, 'f', precision)
-                .arg(units[unitIndex])
+                .arg(units[unitIndex]);
+            
+            if (!includeExactBytes)
+                return readable;
+            
+            return QString("%1 (%2 bytes)")
+                .arg(readable)
                 .arg(bytes);
         };
         
@@ -139,9 +145,26 @@ void MainWindow::onCompressClicked()
         
         QString message = QString("Image compressed successfully!\n\nSaved as: %1")
             .arg(compressedFileInfo.filePath());
+        
+        bool originalExists = originalFileInfo.exists();
+        bool compressedExists = compressedFileInfo.exists();
+        bool showOriginalBytes = originalExists && originalFileInfo.size() < 1024 * 1024;
+        bool showCompressedBytes = compressedExists && compressedFileInfo.size() < 1024 * 1024;
+        
+        QString originalSizeText = originalExists
+            ? formatSize(originalFileInfo.size(), showOriginalBytes)
+            : "Unavailable";
+        QString compressedSizeText = compressedExists
+            ? formatSize(compressedFileInfo.size(), showCompressedBytes)
+            : "Unavailable";
+        
         message += QString("\n\nOriginal Size: %1\nCompressed Size: %2")
-            .arg(formatSize(originalFileInfo.exists() ? originalFileInfo.size() : -1),
-                 formatSize(compressedFileInfo.exists() ? compressedFileInfo.size() : -1));
+            .arg(originalSizeText, compressedSizeText);
+        
+        if (!compressedExists)
+        {
+            message += "\n\nNote: Compressed file size is unavailable because the file was not found.";
+        }
         
         QMessageBox::information(this, "Success", message);
     }
